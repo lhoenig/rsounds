@@ -102,7 +102,7 @@ def process_post(post, num):
 ua = "rsounds 0.1"
 r = praw.Reddit(user_agent=ua)
 
-sr_title = sys.argv[1] if len(sys.argv) == 2 else "atmosphericdnb"
+sr_title = sys.argv[1] if len(sys.argv) == 2 else "music"
 
 sr = r.get_subreddit(sr_title)
 posts = sr.get_new(limit=None)
