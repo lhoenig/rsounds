@@ -24,14 +24,18 @@ def post_wanted(link):
 # set title, artist and album cover of an mp3 file
 def write_tags(post, fname):
     audio = ID3(fname)
-    cover = requests.get(post.thumbnail).content
+    cover = None
+    if post.thumbnail is not None and len(post.thumbnail) > 0:
+    	cover = requests.get(post.thumbnail).content
     if len(post.title.split(' - ', 2)) == 2:
         audio.add(TIT2(encoding=3, text=post.title.split(' - ', 2)[1]))
         audio.add(TPE1(encoding=3, text=post.title.split(' - ', 2)[0]))
-        audio.add(APIC(3, u'image/jpeg', 3, u'Albumcover', cover))
+        if cover is not None:
+        	audio.add(APIC(3, u'image/jpeg', 3, u'Albumcover', cover)) 
     else:
         audio.add(TIT2(encoding=3, text=post.title))
-        audio.add(APIC(3, u'image/jpeg', 3, u'Albumcover', cover))
+        if cover is not None:
+        	audio.add(APIC(3, u'image/jpeg', 3, u'Albumcover', cover))
     audio.save()
 
 
